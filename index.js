@@ -3,10 +3,12 @@ const app = express();
 const bodyParser = require('body-parser');
 global.UUID = require('uuid');
 
+// Database connection middleware
 require('./Middleware/dbConnection');
 
 app.use(bodyParser.json());
 
+// Routes
 app.use('/user', require('./Routes/user'));
 app.use('/account', require('./Routes/transaction'));
 

@@ -9,6 +9,7 @@ const AccountModel = require('../Models/account.model');
 const AuthMiddleware = require('../Middleware/auth');
 const ValidateTransactionMiddleware = require('../Middleware/validateTransaction');
 
+// Create bank account
 route.post('/', (req, res) => {
     AccountModel.create({ ...req.body })
         .then(data => { res.status(200).json(data) })
@@ -17,6 +18,7 @@ route.post('/', (req, res) => {
         });
 });
 
+// Transfer amount
 route.post('/transfer', AuthMiddleware.authenticateUser,
     ValidateTransactionMiddleware.validateAccount,
     ValidateTransactionMiddleware.validateBalance,  

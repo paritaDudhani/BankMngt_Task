@@ -4,6 +4,7 @@ const UserModel = require('../Models/user.model');
 const AccountModel = require('../Models/account.model');
 
 module.exports = {
+    // Validate user trying to transfer in his account
     validateAccount (req, res, next) {
         try {
             AccountModel.find({
@@ -31,7 +32,8 @@ module.exports = {
             }).then(accountDetails => {
                 if (!accountDetails) {
                     res.status(400).send({ message: 'Transaction not valid' });
-                } else if(accountDetails.balance < req.body.amount){
+                } else if (accountDetails.balance < req.body.amount) {
+                    // User has sufficient balance
                     res.status(400).send({ message: 'Insufficient amount' });
                 } else {
                     AccountModel.findOne({
@@ -40,7 +42,8 @@ module.exports = {
                         if (!data) {
                             res.status(400).send({ message: 'Transaction not valid' });
                         } else if (data.accountType === 'basic' &&
-                            (data.balance + req.body.amount)>50000) {
+                            (data.balance + req.body.amount) > 50000) {
+                            // Validate balance for basic account
                             res.status(400).send({ message: 'Basic account balance exceed' });
                         } else {
                             next();
